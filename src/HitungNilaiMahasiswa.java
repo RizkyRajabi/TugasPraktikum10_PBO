@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 /**
  *
@@ -11,6 +12,7 @@ import javax.swing.JOptionPane;
  */
 public class HitungNilaiMahasiswa extends javax.swing.JFrame {
     DefaultTableModel model;
+    ArrayList<Mahasiswa> listMahasiswa = new ArrayList<>();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(HitungNilaiMahasiswa.class.getName());
 
@@ -328,41 +330,36 @@ public class HitungNilaiMahasiswa extends javax.swing.JFrame {
     double akhir = n1 + n2 + n3 + n4 + n5;
     txtAkhir.setText(String.format("%.2f", akhir));
 
-    model.addRow(new Object[]{
-        txtNIM.getText(),
-        txtNama.getText(),
-        txtAlamat.getText(),
-        txtMatkul.getText(),
-        txtAkhir.getText()
-    });
+   Mahasiswa m = new Mahasiswa(
+                txtNIM.getText(),
+                txtNama.getText(),
+                txtAlamat.getText(),
+                txtMatkul.getText(),
+                akhir
+            );
+            listMahasiswa.add(m);
 
-    JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
-    
-    txtNIM.setText("");
-    txtNama.setText("");
-    txtAlamat.setText("");
-    txtMatkul.setText("");
-    txtNilai1.setText("");
-    txtNilai2.setText("");
-    txtNilai3.setText("");
-    txtNilai4.setText("");
-    txtNilai5.setText("");
-    txtAkhir.setText("");
-    
-} catch (NumberFormatException e) {
-    JOptionPane.showMessageDialog(this, "Input nilai harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
-}
+            model.addRow(new Object[]{
+                m.getNim(), m.getNama(), m.getAlamat(), m.getMatkul(), m.getNilaiAkhir()
+            });
+
+            JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Input nilai harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         // TODO add your handling code here:
-    int selectedRow = tblData.getSelectedRow();
+     int selectedRow = tblData.getSelectedRow();
         if (selectedRow != -1) {
             model.removeRow(selectedRow);
+            listMahasiswa.remove(selectedRow); // hapus dari ArrayList juga
             JOptionPane.showMessageDialog(this, "Data berhasil dihapus!");
         } else {
             JOptionPane.showMessageDialog(this, "Pilih baris yang ingin dihapus!");
         }
+          
     }//GEN-LAST:event_btnHapusActionPerformed
 
     /**
